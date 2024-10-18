@@ -7,6 +7,7 @@ rm(list=ls())
 packages <- c("ggseg", "ggplot2", "ggsegDefaultExtra", "showtext", "extrafont")
 sapply(packages, require, character.only = TRUE)
 
+
 # 定义脑区名称、颜色和对应的中文名称
 region <- c("superior frontal","rostral middle frontal","caudal middle frontal",
             "pars opercularis","pars triangularis","pars orbitalis","frontal pole",
