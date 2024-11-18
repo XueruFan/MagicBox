@@ -1,6 +1,6 @@
 rm(list=ls())
 
-packages <- c("mclust", "ggplot2", "cluster", "Cairo", "tseries", "openxlsx")
+packages <- c("openxlsx", "dplyr")
 # sapply(packages,install.packages,character.only=TRUE)
 sapply(packages, require, character.only = TRUE)
 
@@ -24,9 +24,6 @@ colnames(centile_2) <- c("region", "Centile2_Median")
 centile_all$region <- gsub("lh_", "", centile_all$region)
 centile_1$region <- gsub("lh_", "", centile_1$region)
 centile_2$region <- gsub("lh_", "", centile_2$region)
-centile_p <- read.csv("E:/PhDproject/ABIDE/Analysis/Statistic/Spect513/statis_MRI_240610.csv")[-1:-7, -2]
-centile_p$X <- gsub("_centile", "", centile_p$X)
-colnames(centile_p) <- c("region", "Centile_P")
 
 
 ########### Ab
@@ -44,21 +41,38 @@ all <- merge(all, norm_test_2, by = "region")
 all <- merge(all, centile_all, by = "region")
 all <- merge(all, centile_1, by = "region")
 all <- merge(all, centile_2, by = "region")
-all <- merge(all, centile_p, by = "region")
 all <- merge(all, Ab, by = "region")
 
+en_labels <- c("superiorfrontal", "rostralmiddlefrontal", "caudalmiddlefrontal",
+               "parsopercularis", "parstriangularis", "parsorbitalis", "frontalpole",
+               "lateralorbitofrontal", "medialorbitofrontal",
+               "rostralanteriorcingulate", "caudalanteriorcingulate",
+               "precentral", "paracentral", "postcentral",
+               "supramarginal", "posteriorcingulate", "isthmuscingulate",
+               "precuneus", "superiorparietal", "inferiorparietal",
+               "transversetemporal", "bankssts",
+               "superiortemporal", "middletemporal", "inferiortemporal",
+               "fusiform", "parahippocampal", "entorhinal", "temporalpole",
+               "lateraloccipital", "lingual", "pericalcarine", "cuneus",
+               "insula")
 
-all <- all[, c(10, 2, 5, 3, 6, 4, 7, 8, 11, 12)]
+# 将 'region' 列转换为因子，并按照 en_labels 中的顺序定义因子级别
+all$region <- factor(all$region, levels = en_labels)
 
-# 将 2 到 10 列转换为数值类型，防止 list 或其他非数值类型
-all[, 2:10] <- lapply(all[, 2:10], function(x) as.numeric(as.character(x)))
+# 根据 region 列的因子顺序对数据框进行排序
+all <- all %>% arrange(region)
+
+
+all <- all[, c(9, 2, 5, 3, 6, 4, 7, 10, 11)]
+
+all[, 2:9] <- lapply(all[, 2:9], function(x) as.numeric(as.character(x)))
 
 # 使用 sprintf 格式化数值，保留两位小数
-all[, 2:10] <- sprintf("%.2f", as.numeric(unlist(all[, 2:10])))
+all[, 2:9] <- sprintf("%.2f", as.numeric(unlist(all[, 2:9])))
 
 #################
 
 all$latex <- paste0(all$FullName, " & ", all$NormTestAll_P, " & ", all$CentileAll_Median, " & ",
                     all$NormTest1_P, " & ", all$Centile1_Median, " & ", all$NormTest2_P, " & ",
-                    all$Centile2_Median, " & ", all$Centile_P, " & ", all$L_ab, " & ", all$H_ab, " \\\\ ")
+                    all$Centile2_Median, " & ", all$L_ab, " & ", all$H_ab, " \\\\ ")
 write.csv(all, "E:/Documents/Work/文章投稿/ASD/制表/Table1.csv", row.names = F)

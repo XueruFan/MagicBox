@@ -44,7 +44,7 @@ ggseg(.data = shap, mapping = aes(fill = value), color = "black", atlas = dk,
   theme_void() +
   theme(legend.title = element_blank(), legend.position = "bottom",
         legend.key.width = unit(1, "cm")) +
-  scale_fill_gradientn(colors = c("white", "#ba2636"),  # 下限-中间-上限
+  scale_fill_gradientn(colors = c("white", "#d26b66"),  # 下限-中间-上限
                        limits = c(0, 0.05),  # 设置上下限
                        breaks = c(0, 0.05),  # 自定义区间
                        labels = c("0", "0.05"),
