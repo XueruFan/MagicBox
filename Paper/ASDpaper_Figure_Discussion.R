@@ -258,3 +258,33 @@ ggplot(selected_data, aes(x = Centile, y = Measure, fill = Group, group = intera
 
 name_regional <- paste0("Cluster_Centile_Regional_H_Ab_", newDate, ".png")
 ggsave(file.path(plotDir, name_regional), width = 5.5, height = 4, units = "in", dpi = 500)
+
+
+
+
+######################### SHAP #############################
+
+parcs <- rev(c("Isthmus cingulate", "Precuneus", "Middle temporal", "Entorhinal"))
+
+selected_data <- all_data %>%
+  filter(Measure %in% parcs)
+
+selected_data$Measure <- factor(selected_data$Measure, levels = parcs)
+
+ggplot(selected_data, aes(x = Centile, y = Measure, fill = Group, group = interaction(Group, Measure))) +
+  geom_density_ridges(scale = 2, quantile_lines = TRUE, size = 0.75, quantiles = 2, alpha = .9) +
+  scale_x_continuous(breaks = seq(0, 1, by = 0.25), labels = c("0%", "25%", "50%", "75%", "100%")) +
+  scale_fill_manual(values = c("1" = "#b4d4c7", "2" = "#facaae")) +
+  # coord_fixed(ratio = 0.15) + 
+  xlab("") +
+  ylab("") +
+  theme_ridges() +
+  theme(
+    legend.position = "none", # without legend
+    axis.text.y = element_text(size = 8),
+    axis.text.x = element_text(size = 6))
+
+name_regional <- paste0("Cluster_Centile_Regional_SHAP_", newDate, ".png")
+ggsave(file.path(plotDir, name_regional), width = 5.5, height = 4, units = "in", dpi = 500)
+
+
