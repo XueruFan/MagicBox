@@ -102,7 +102,7 @@ MergedData_claen <- MergedData %>%
 # ggsave(filename, width = 8, height = 8, units = "in", dpi = 300)
 
 
-####### 按照每个被试的测试次数多-少、被试年龄大-小的顺序
+####### 按照每个被试的测试次数多-少、测试间隔总间隔多-少排序
 ggplot(MergedData_claen, aes(x = Interval_days, y = Rank, color = Site, group = P)) +
   # coord_fixed(ratio = 5, xlim = c(0, 160), ylim = c(0, 40)) +
   coord_fixed(ratio = 5, xlim = c(0, 160), ylim = c(6, 40)) +
