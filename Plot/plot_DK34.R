@@ -65,5 +65,5 @@ ggseg(atlas = dkextra, mapping = aes(fill = region), color = "black",
         legend.text = element_text(size = 6, family = "STSong", face = "bold"))   # 图例文字大小
 
 
-name <- file.path("E:/PhDproject/ABIDE/Plot", "DK34_240811.png")
+name <- file.path("E:/PhDproject/ABIDE/Plot", "DK34_250619.png")
 ggsave(name, width = 6, height = 3.5, units = "in", dpi = 500)
