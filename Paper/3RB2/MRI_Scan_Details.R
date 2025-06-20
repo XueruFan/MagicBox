@@ -108,7 +108,7 @@ ggplot(MergedData_claen, aes(x = Interval_days, y = Rank, color = Site, group = 
   coord_fixed(ratio = 5, xlim = c(0, 160), ylim = c(6, 40)) +
   geom_line(color = "lightgray", size = 2, alpha = 0.5) +
   geom_point(size = 5, alpha = 0.9) +
-  scale_color_manual(values = c("#86b5a1", "#e47159", "#7976a2", "#b95a58", "#3d5c6f", "#f9ae78",
+  scale_color_manual(values = c("#86b5a1", "#e47159", "#7976a2", "#f9ae78", "#3d5c6f", "#ffa725",
                                 "#963f5e", "#4282c6", "#00a391")) +
   labs(x = "", y = "", color = "") +
   scale_x_continuous(breaks = seq(0, 160, 40)) + 
@@ -240,6 +240,7 @@ interval_days <- interval_days[, "Interval_gap"]
 ggplot(interval_days, aes(x = Interval_gap)) +
   coord_fixed(ratio = 1.5, xlim = c(2, 73), ylim = c(0, 30)) + 
   geom_histogram(binwidth = 1, fill = "#4977ba", color = "lightgray", size = .5, alpha = 1) +
+  geom_vline(xintercept = 8, linetype = "dashed", color = "black", size = 0.7) +  # 添加中位数
   scale_x_continuous(breaks = seq(2, 74, 12)) +
   scale_y_continuous(breaks = seq(0, 30, 15)) +
   theme_minimal() +
